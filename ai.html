@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <h2 class="logo">🚑 RescueNet</h2>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="report.html">Report</a>
+
+            <a href="rules.html">Rules</a>
+
+            <a href="ai.html">AI</a>
+
+        </div>
+
+    </nav>
+
+    <div class="container">
+
+        <h1 class="main-title">
+            AI Emergency Assistant
+        </h1>
+
+        <div class="rules-box show-box">
+
+            <select id="emergencyType">
+
+                <option>Minor Accident</option>
+
+                <option>Serious Accident</option>
+
+                <option>Fire Accident</option>
+
+                <option>Vehicle Breakdown</option>
+
+            </select>
+
+            <br><br>
+
+            <button onclick="checkEmergency()">
+                Analyze Emergency
+            </button>
+
+            <h3 id="result"></h3>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

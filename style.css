@@ -1,0 +1,194 @@
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(to right,
+    #141e30,
+    #243b55);
+
+    color: white;
+
+    min-height: 100vh;
+}
+
+nav {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 40px;
+
+    background-color: rgba(255,255,255,0.1);
+
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+
+    font-size: 28px;
+}
+
+.nav-links a {
+
+    color: white;
+
+    text-decoration: none;
+
+    margin-left: 25px;
+
+    font-size: 18px;
+}
+
+.container {
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+.main-title {
+
+    font-size: 65px;
+
+    margin-bottom: 10px;
+}
+
+.tagline {
+
+    font-size: 22px;
+
+    color: #dcdcdc;
+
+    margin-bottom: 50px;
+}
+
+.button-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+button {
+
+    width: 320px;
+
+    padding: 18px;
+
+    font-size: 18px;
+
+    border-radius: 12px;
+
+    border: 2px solid white;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover {
+
+    transform: scale(1.05);
+}
+
+.sos-btn {
+
+    background-color: #ff4d4d;
+
+    color: white;
+
+    border: none;
+}
+
+.normal-btn {
+
+    background-color: transparent;
+
+    color: white;
+}
+
+.report-box,
+.rules-box {
+
+    width: 500px;
+
+    margin: auto;
+
+    padding: 30px;
+
+    background-color: rgba(255,255,255,0.1);
+
+    border-radius: 18px;
+
+    backdrop-filter: blur(10px);
+}
+
+.show-box {
+
+    display: block;
+}
+
+input,
+textarea,
+select {
+
+    width: 90%;
+
+    padding: 12px;
+
+    margin: 12px 0;
+
+    border-radius: 10px;
+
+    border: none;
+
+    font-size: 16px;
+}
+
+textarea {
+
+    height: 120px;
+}
+
+ul {
+
+    list-style: none;
+
+    padding: 0;
+}
+
+li {
+
+    background-color: rgba(255,255,255,0.12);
+
+    margin: 15px 0;
+
+    padding: 15px;
+
+    border-radius: 12px;
+}
+
+.footer-text {
+
+    margin-top: 60px;
+
+    color: #dcdcdc;
+}
+.contact-box {
+
+    margin-bottom: 40px;
+}
+
+.contact-box h2 {
+
+    margin-bottom: 15px;
+}
