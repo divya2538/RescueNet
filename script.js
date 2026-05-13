@@ -40,8 +40,13 @@ function findHelp() {
 
             let whatsappURL =
 
-                `https://wa.me/${contact}?text=${encodeURIComponent(emergencyMessage)}`;
+                "https://wa.me/" +
 
+                contact +
+
+                "?text=" +
+
+                encodeURIComponent(message);
             alert(
 
                 "🚑 Ambulance Alerted Successfully!\n\n" +
