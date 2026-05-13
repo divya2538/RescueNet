@@ -4,9 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>RescueNet</title>
 
@@ -23,11 +21,8 @@
         <div class="nav-links">
 
             <a href="index.html">Home</a>
-
             <a href="report.html">Report</a>
-
             <a href="rules.html">Rules</a>
-
             <a href="ai.html">AI</a>
 
         </div>
@@ -36,21 +31,15 @@
 
     <div class="container">
 
-        <h1 class="main-title">
-            RescueNet
-        </h1>
+        <h1 class="main-title">RescueNet</h1>
 
         <p class="tagline">
             Smart Emergency Assistance & Road Safety Platform
         </p>
 
-        <!-- EMERGENCY CONTACT -->
-
         <div class="contact-box">
 
-            <h2>
-                Emergency Contact
-            </h2>
+            <h2>Emergency Contact</h2>
 
             <input type="text"
                    id="contactNumber"
@@ -58,44 +47,66 @@
 
         </div>
 
-        <!-- BUTTONS -->
-
         <div class="button-container">
 
-            <button class="sos-btn"
-                    onclick="findHelp()">
-
+            <button class="sos-btn" onclick="findHelp()">
                 🚑 SOS Emergency
+            </button>
 
+            <button id="cancelBtn"
+                    class="normal-btn"
+                    onclick="cancelSOS()"
+                    style="display:none;">
+                ❌ Cancel SOS
             </button>
 
             <button class="normal-btn"
                     onclick="window.location.href='report.html'">
-
                 🛣️ Report Road Issue
-
             </button>
 
             <button class="normal-btn"
                     onclick="window.location.href='rules.html'">
-
                 📜 Traffic Rules
-
             </button>
 
             <button class="normal-btn"
                     onclick="window.location.href='ai.html'">
-
                 🤖 AI Assistant
-
             </button>
 
         </div>
 
+        <div class="status-box">
+
+            <h3>📊 SOS Status</h3>
+
+            <p id="result">System Ready</p>
+
+        </div>
+
+        <div class="hospital-box">
+
+            <h3>🏥 Nearby Hospitals</h3>
+
+            <p>
+                Will appear in Google Maps when SOS is triggered
+            </p>
+
+        </div>
+
+        <div class="tracker-box">
+
+            <h3>📍 Live Tracker</h3>
+
+            <p>
+                Location tracking will be shared via Google Maps link
+            </p>
+
+        </div>
+
         <h3 class="footer-text">
-
             “Because every second matters.”
-
         </h3>
 
     </div>
