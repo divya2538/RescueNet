@@ -1,119 +1,83 @@
 function findHelp() {
 
-    let contact =
-        document.getElementById("contactNumber").value;
+    let contact = document.getElementById("contactNumber").value;
 
     if (contact === "") {
-
-        alert(
-            "Please enter emergency contact number."
-        );
-
+        alert("Please enter emergency contact number.");
         return;
     }
 
+    contact = contact.trim().replace("+", "").replace(/\s/g, "");
+
     navigator.geolocation.getCurrentPosition(
 
-        function(position) {
+        function (position) {
 
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
             let mapLink =
-                "https://www.google.com/maps/search/hospitals+near+me/@" +
-                latitude + "," +
-                longitude + ",15z";
+                "https://www.google.com/maps/search/?api=1&query=hospitals&center=" +
+                latitude + "," + longitude;
 
             let emergencyMessage =
-
                 "🚨 EMERGENCY ALERT 🚨\n\n" +
-
                 "A road accident has been detected.\n\n" +
-
                 "🚑 Ambulance has been alerted.\n\n" +
-
                 "📍 Live Location:\n" +
-
                 mapLink + "\n\n" +
-
                 "Please reach immediately.";
 
             let whatsappURL =
-
                 "https://wa.me/" +
-
                 contact +
-
                 "?text=" +
-
                 encodeURIComponent(emergencyMessage);
+
             alert(
-
                 "🚑 Ambulance Alerted Successfully!\n\n" +
-
                 "Emergency contact is being notified."
-
             );
 
-            window.open(whatsappURL);
+            window.location.href = whatsappURL;
 
-            window.open(mapLink);
+            setTimeout(function () {
+                window.open(mapLink, "_blank");
+            }, 1500);
 
         },
 
-        function() {
-
-            alert(
-                "Unable to detect location."
-            );
-
+        function () {
+            alert("Unable to detect location. Please enable GPS.");
         }
-
     );
-
 }
 
 function submitReport() {
-
     alert("Report Submitted Successfully!");
-
 }
 
 function checkEmergency() {
 
-    let type =
-        document.getElementById("emergencyType").value;
+    let type = document.getElementById("emergencyType").value;
 
     let message = "";
 
     if (type === "Minor Accident") {
-
-        message =
-            "Priority: Medium - Contact nearby hospital.";
-
+        message = "Priority: Medium - Contact nearby hospital.";
     }
 
     else if (type === "Serious Accident") {
-
-        message =
-            "Priority: HIGH - Call ambulance immediately.";
-
+        message = "Priority: HIGH - Call ambulance immediately.";
     }
 
     else if (type === "Fire Accident") {
-
-        message =
-            "Priority: CRITICAL - Contact fire service now.";
-
+        message = "Priority: CRITICAL - Contact fire service now.";
     }
 
     else {
-
-        message =
-            "Priority: Low - Contact roadside assistance.";
-
+        message = "Priority: Low - Contact roadside assistance.";
     }
 
-    document.getElementById("result").innerHTML =
-        message;
+    document.getElementById("result").innerHTML = message;
 }
