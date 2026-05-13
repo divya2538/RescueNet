@@ -16,68 +16,61 @@ function findHelp() {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
-            let mapLink =
-                "https://www.google.com/maps/search/?api=1&query=hospitals&center=" +
+            let locationLink =
+                "https://www.google.com/maps?q=" +
                 latitude + "," + longitude;
 
-            let emergencyMessage =
-                "🚨 EMERGENCY ALERT 🚨\n\n" +
-                "A road accident has been detected.\n\n" +
-                "🚑 Ambulance has been alerted.\n\n" +
-                "📍 Live Location:\n" +
-                mapLink + "\n\n" +
-                "Please reach immediately.";
+            let navigationLink =
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                latitude + "," + longitude;
 
-            let whatsappURL =
-                "https://wa.me/" +
-                contact +
-                "?text=" +
-                encodeURIComponent(emergencyMessage);
+            let time = new Date().toLocaleString();
 
-            alert(
-                "🚑 Ambulance Alerted Successfully!\n\n" +
-                "Emergency contact is being notified."
-            );
+            let batteryText = "";
 
-            window.location.href = whatsappURL;
+            if (navigator.getBattery) {
+                navigator.getBattery().then(function (battery) {
+                    batteryText = (battery.level * 100).toFixed(0) + "%";
 
-            setTimeout(function () {
-                window.open(mapLink, "_blank");
-            }, 1500);
+                    sendMessage();
+                });
+            } else {
+                sendMessage();
+            }
+
+            function sendMessage() {
+
+                let emergencyMessage =
+                    "🚨 EMERGENCY SOS ALERT 🚨\n\n" +
+                    "A road accident has been detected.\n\n" +
+                    "🚑 Ambulance requested immediately.\n\n" +
+                    "📍 Live Location:\n" +
+                    locationLink + "\n\n" +
+                    "🧭 Navigate:\n" +
+                    navigationLink + "\n\n" +
+                    "⏰ Time: " + time + "\n" +
+                    "🔋 Battery: " + (batteryText || "Not available") + "\n\n" +
+                    "PLEASE REACH IMMEDIATELY.";
+
+                let whatsappURL =
+                    "https://wa.me/" +
+                    contact +
+                    "?text=" +
+                    encodeURIComponent(emergencyMessage);
+
+                window.location.href = whatsappURL;
+            }
 
         },
 
         function () {
             alert("Unable to detect location. Please enable GPS.");
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }
     );
-}
-
-function submitReport() {
-    alert("Report Submitted Successfully!");
-}
-
-function checkEmergency() {
-
-    let type = document.getElementById("emergencyType").value;
-
-    let message = "";
-
-    if (type === "Minor Accident") {
-        message = "Priority: Medium - Contact nearby hospital.";
-    }
-
-    else if (type === "Serious Accident") {
-        message = "Priority: HIGH - Call ambulance immediately.";
-    }
-
-    else if (type === "Fire Accident") {
-        message = "Priority: CRITICAL - Contact fire service now.";
-    }
-
-    else {
-        message = "Priority: Low - Contact roadside assistance.";
-    }
-
-    document.getElementById("result").innerHTML = message;
 }
