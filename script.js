@@ -46,7 +46,7 @@ function findHelp() {
 
                 "?text=" +
 
-                encodeURIComponent(message);
+                encodeURIComponent(emergencyMessage);
             alert(
 
                 "🚑 Ambulance Alerted Successfully!\n\n" +
