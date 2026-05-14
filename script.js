@@ -142,5 +142,5 @@ function checkEmergency() {
         message = "🟢 Low Priority: Contact roadside assistance or mechanic help.";
     }
 
-    document.getElementById("aiResult").innerText = message;
+    document.getElementById("airesult").innerText = message;
 }
