@@ -1,5 +1,4 @@
 let sosTimer;
-let watchId;
 
 function findHelp() {
 
@@ -13,31 +12,45 @@ function findHelp() {
     contact = contact.trim().replace("+", "").replace(/\s/g, "");
 
     let countdown = 10;
-    document.getElementById("result").innerHTML =
+
+    document.getElementById("result").innerText =
         "SOS will be sent in " + countdown + " seconds...";
 
     let cancelBtn = document.getElementById("cancelBtn");
     if (cancelBtn) cancelBtn.style.display = "block";
 
+    clearInterval(sosTimer);
+
     sosTimer = setInterval(() => {
+
         countdown--;
 
-        document.getElementById("result").innerHTML =
+        document.getElementById("result").innerText =
             "SOS will be sent in " + countdown + " seconds...";
 
         if (countdown <= 0) {
             clearInterval(sosTimer);
             startSOS(contact);
         }
+
     }, 1000);
 }
 
 function cancelSOS() {
+
     clearInterval(sosTimer);
-    document.getElementById("result").innerHTML = "SOS Cancelled";
+
+    document.getElementById("result").innerText =
+        "🚫 SOS Cancelled";
+
+    let cancelBtn = document.getElementById("cancelBtn");
+    if (cancelBtn) cancelBtn.style.display = "none";
 }
 
 function startSOS(contact) {
+
+    document.getElementById("result").innerText =
+        "📍 Fetching location...";
 
     navigator.geolocation.getCurrentPosition(
 
@@ -66,9 +79,8 @@ function startSOS(contact) {
 
             let emergencyMessage =
                 "🚨 EMERGENCY SOS ALERT 🚨\n\n" +
-                "A road accident has been detected.\n\n" +
                 "🚑 Ambulance requested immediately.\n\n" +
-                "📍 Live Location:\n" +
+                "📍 Location:\n" +
                 locationLink + "\n\n" +
                 "🧭 Navigation:\n" +
                 navigationLink + "\n\n" +
@@ -85,20 +97,23 @@ function startSOS(contact) {
                 "?text=" +
                 encodeURIComponent(emergencyMessage);
 
-            document.getElementById("result").innerHTML =
-                "SOS SENT SUCCESSFULLY";
+            document.getElementById("result").innerText =
+                "🚨 SOS SENT SUCCESSFULLY";
 
-            window.location.href = whatsappURL;
+            setTimeout(() => {
+                window.location.href = whatsappURL;
+            }, 300);
 
         },
 
         function () {
-            alert("Unable to detect location. Enable GPS.");
+            document.getElementById("result").innerText =
+                "❌ Unable to get location. Enable GPS.";
         },
 
         {
             enableHighAccuracy: true,
-            timeout: 10000,
+            timeout: 15000,
             maximumAge: 0
         }
     );
