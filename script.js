@@ -1,4 +1,5 @@
 let sosTimer;
+let watchId;
 
 function findHelp() {
 
@@ -13,7 +14,7 @@ function findHelp() {
 
     let countdown = 10;
 
-    document.getElementById("result").innerText =
+    document.getElementById("result").innerHTML =
         "SOS will be sent in " + countdown + " seconds...";
 
     let cancelBtn = document.getElementById("cancelBtn");
@@ -25,7 +26,7 @@ function findHelp() {
 
         countdown--;
 
-        document.getElementById("result").innerText =
+        document.getElementById("result").innerHTML =
             "SOS will be sent in " + countdown + " seconds...";
 
         if (countdown <= 0) {
@@ -40,8 +41,8 @@ function cancelSOS() {
 
     clearInterval(sosTimer);
 
-    document.getElementById("result").innerText =
-        "🚫 SOS Cancelled";
+    document.getElementById("result").innerHTML =
+        "SOS Cancelled";
 
     let cancelBtn = document.getElementById("cancelBtn");
     if (cancelBtn) cancelBtn.style.display = "none";
@@ -49,8 +50,8 @@ function cancelSOS() {
 
 function startSOS(contact) {
 
-    document.getElementById("result").innerText =
-        "📍 Fetching location...";
+    document.getElementById("result").innerHTML =
+        "Fetching location...";
 
     navigator.geolocation.getCurrentPosition(
 
@@ -97,8 +98,8 @@ function startSOS(contact) {
                 "?text=" +
                 encodeURIComponent(emergencyMessage);
 
-            document.getElementById("result").innerText =
-                "🚨 SOS SENT SUCCESSFULLY";
+            document.getElementById("result").innerHTML =
+                "SOS SENT SUCCESSFULLY";
 
             setTimeout(() => {
                 window.location.href = whatsappURL;
@@ -107,8 +108,8 @@ function startSOS(contact) {
         },
 
         function () {
-            document.getElementById("result").innerText =
-                "❌ Unable to get location. Enable GPS.";
+            document.getElementById("result").innerHTML =
+                "Unable to detect location.";
         },
 
         {
@@ -117,4 +118,29 @@ function startSOS(contact) {
             maximumAge: 0
         }
     );
+}
+
+function checkEmergency() {
+
+    let type = document.getElementById("emergencyType").value;
+
+    let message = "";
+
+    if (type === "Minor Accident") {
+        message = "🟡 Medium Priority: Contact nearest hospital and monitor condition.";
+    }
+
+    else if (type === "Serious Accident") {
+        message = "🔴 HIGH Priority: Call ambulance (108) immediately and share live location.";
+    }
+
+    else if (type === "Fire Accident") {
+        message = "🔥 CRITICAL: Call fire service (101) and evacuate area immediately.";
+    }
+
+    else if (type === "Vehicle Breakdown") {
+        message = "🟢 Low Priority: Contact roadside assistance or mechanic help.";
+    }
+
+    document.getElementById("aiResult").innerText = message;
 }
