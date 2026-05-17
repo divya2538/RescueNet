@@ -10,7 +10,8 @@
 
     <title>AI Assistant</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
@@ -18,16 +19,13 @@
 
     <nav>
 
-        <h2 class="logo">🚑 RescueNet</h2>
+        <h2 class="logo">🚑 RescueNet AI</h2>
 
         <div class="nav-links">
 
             <a href="index.html">Home</a>
-
             <a href="report.html">Report</a>
-
             <a href="rules.html">Rules</a>
-
             <a href="ai.html">AI</a>
 
         </div>
@@ -40,27 +38,53 @@
             AI Emergency Assistant
         </h1>
 
-        <div class="rules-box show-box">
+        <div class="rules-box">
 
-            <select id="emergencyType">
+            <textarea id="emergencyInput"
+            placeholder="Describe emergency...">
+            </textarea>
 
-                <option>Minor Accident</option>
-
-                <option>Serious Accident</option>
-
-                <option>Fire Accident</option>
-
-                <option>Vehicle Breakdown</option>
-
-            </select>
-
-            <br><br>
-
-            <button onclick="checkEmergency()">
-                Analyze Emergency
+            <button onclick="startVoice()">
+                🎤 Voice Input
             </button>
 
-            <h3 id="airesult"></h3>
+            <button onclick="checkEmergency()">
+                🤖 Analyze Emergency
+            </button>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="glass-card">
+
+                <h3>🚨 Severity</h3>
+
+                <p id="severity">
+                    Waiting...
+                </p>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h3>🏥 Recommendation</h3>
+
+                <p id="recommendation">
+                    Waiting...
+                </p>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h3>📍 Services</h3>
+
+                <p id="services">
+                    Waiting...
+                </p>
+
+            </div>
 
         </div>
 
