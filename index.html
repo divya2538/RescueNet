@@ -4,9 +4,11 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RescueNet</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RescueNet AI</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -16,7 +18,7 @@
 
     <nav>
 
-        <h2 class="logo">🚑 RescueNet</h2>
+        <h2 class="logo">🚑 RescueNet AI</h2>
 
         <div class="nav-links">
 
@@ -31,49 +33,64 @@
 
     <div class="container">
 
-        <h1 class="main-title">RescueNet</h1>
+        <h1 class="main-title">
+            RescueNet AI
+        </h1>
 
         <p class="tagline">
-            Smart Emergency Assistance & Road Safety Platform
+            Intelligent Emergency Assistance Platform
         </p>
 
-        <div class="contact-box">
+        <div class="dashboard-grid">
 
-            <h2>Emergency Contact</h2>
+            <div class="glass-card">
 
-            <input type="text"
-                   id="contactNumber"
-                   placeholder="Enter WhatsApp Number with Country Code">
+                <h2>📞 Emergency Contact</h2>
 
-        </div>
+                <input type="text"
+                       id="contactNumber"
+                       placeholder="Enter WhatsApp Number">
 
-        <div class="button-container">
+                <select id="severityLevel">
 
-            <button class="sos-btn" onclick="findHelp()">
-                🚑 SOS Emergency
-            </button>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>Critical</option>
 
-            <button id="cancelBtn"
-                    class="normal-btn"
-                    onclick="cancelSOS()"
-                    style="display:none;">
-                ❌ Cancel SOS
-            </button>
+                </select>
 
-            <button class="normal-btn"
-                    onclick="window.location.href='report.html'">
-                🛣️ Report Road Issue
-            </button>
+                <select id="country">
 
-            <button class="normal-btn"
-                    onclick="window.location.href='rules.html'">
-                📜 Traffic Rules
-            </button>
+                    <option>India</option>
+                    <option>USA</option>
+                    <option>UK</option>
 
-            <button class="normal-btn"
-                    onclick="window.location.href='ai.html'">
-                🤖 AI Assistant
-            </button>
+                </select>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h2>🚨 Emergency Actions</h2>
+
+                <button class="sos-btn"
+                        onclick="findHelp()">
+                    🚑 Activate SOS
+                </button>
+
+                <button id="cancelBtn"
+                        class="normal-btn"
+                        onclick="cancelSOS()"
+                        style="display:none;">
+                    ❌ Cancel SOS
+                </button>
+
+                <button class="normal-btn"
+                        onclick="window.location.href='ai.html'">
+                    🤖 AI Emergency Assistant
+                </button>
+
+            </div>
 
         </div>
 
@@ -81,27 +98,67 @@
 
             <h3>📊 SOS Status</h3>
 
-            <p id="result">System Ready</p>
-
-        </div>
-
-        <div class="hospital-box">
-
-            <h3>🏥 Nearby Hospitals</h3>
-
-            <p>
-                Will appear in Google Maps when SOS is triggered
+            <p id="result">
+                System Ready
             </p>
 
         </div>
 
-        <div class="tracker-box">
+        <div class="risk-container">
 
-            <h3>📍 Live Tracker</h3>
+            <div id="riskBar"></div>
 
-            <p>
-                Location tracking will be shared via Google Maps link
-            </p>
+        </div>
+
+        <div class="timeline-box">
+
+            <h3>🕒 Emergency Timeline</h3>
+
+            <ul id="timeline"></ul>
+
+        </div>
+
+        <div class="services-grid">
+
+            <div class="glass-card">
+
+                <h3>🏥 Hospitals</h3>
+
+                <p id="hospitalStatus">
+                    Waiting...
+                </p>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h3>🚓 Police</h3>
+
+                <p id="policeStatus">
+                    Waiting...
+                </p>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h3>🔧 Mechanics</h3>
+
+                <p id="mechanicStatus">
+                    Waiting...
+                </p>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h3>⛽ Fuel Stations</h3>
+
+                <p id="fuelStatus">
+                    Waiting...
+                </p>
+
+            </div>
 
         </div>
 
