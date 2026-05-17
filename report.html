@@ -10,7 +10,8 @@
 
     <title>Report Issue</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
@@ -18,16 +19,13 @@
 
     <nav>
 
-        <h2 class="logo">🚑 RescueNet</h2>
+        <h2 class="logo">🚑 RescueNet AI</h2>
 
         <div class="nav-links">
 
             <a href="index.html">Home</a>
-
             <a href="report.html">Report</a>
-
             <a href="rules.html">Rules</a>
-
             <a href="ai.html">AI</a>
 
         </div>
@@ -37,22 +35,41 @@
     <div class="container">
 
         <h1 class="main-title">
-            Report Road Issue
+            Smart Hazard Reporting
         </h1>
 
-        <div class="report-box show-box">
+        <div class="report-box">
 
             <input type="text"
+                   id="reporterName"
                    placeholder="Your Name">
 
-            <textarea
-                placeholder="Describe the issue">
+            <select id="issueType">
+
+                <option>Pothole</option>
+                <option>Flooded Road</option>
+                <option>Broken Signal</option>
+                <option>Accident Zone</option>
+                <option>Traffic Block</option>
+
+            </select>
+
+            <textarea id="issueDescription"
+            placeholder="Describe issue">
             </textarea>
 
             <input type="file">
 
+            <button onclick="getLocation()">
+                📍 Detect Location
+            </button>
+
+            <p id="locationText">
+                Location not detected
+            </p>
+
             <button onclick="submitReport()">
-                Submit Report
+                🚨 Submit Report
             </button>
 
         </div>
