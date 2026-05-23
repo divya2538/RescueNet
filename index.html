@@ -1,82 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RescueNet AI Command Center</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>RescueNet AI Emergency Command Center</title>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet Map -->
   <link rel="stylesheet"
     href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
 
-<div class="app-container">
+  <div class="dashboard">
 
-  <aside class="sidebar">
-    <h1 class="logo">RESCUENET</h1>
+    <!-- SIDEBAR -->
+    <aside class="sidebar glass">
 
-    <nav>
-      <a href="#">Dashboard</a>
-      <a href="#">Emergency Map</a>
-      <a href="#">AI Analysis</a>
-      <a href="#">Heatmap</a>
-      <a href="#">Reports</a>
-      <a href="#">Dispatch</a>
-      <a href="dashboard.html">Responder Panel</a>
-    </nav>
-  </aside>
+      <h1 class="logo">🚑 RESCUENET</h1>
 
-  <main class="main-content">
+      <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="report.html">Report</a>
+        <a href="rules.html">Rules</a>
+        <a href="ai.html">AI Analysis</a>
+        <a href="heatmap.html">Heatmap</a>
+        <a href="dashboard.html">Responder Panel</a>
+      </nav>
 
-    <header class="topbar glass">
-      <div>
-        <h2>AI Emergency Command Center</h2>
-        <p>Real-time emergency response coordination</p>
-      </div>
+    </aside>
 
-      <button id="sosBtn" class="sos-button">
-        EMERGENCY SOS
-      </button>
-    </header>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
 
-    <section class="dashboard-grid">
+      <!-- TOPBAR -->
+      <header class="topbar glass">
 
-      <div class="card glass stat-card">
-        <h3>Active Incidents</h3>
-        <h1 id="incidentCount">12</h1>
-      </div>
+        <div>
+          <h2>AI Emergency Command Center</h2>
+          <p>Real-time emergency response coordination</p>
+        </div>
 
-      <div class="card glass stat-card">
-        <h3>Ambulances Active</h3>
-        <h1>7</h1>
-      </div>
+        <button id="sosBtn" class="sos-button">
+          EMERGENCY SOS
+        </button>
 
-      <div class="card glass stat-card">
-        <h3>Risk Level</h3>
-        <h1 class="danger-text">HIGH</h1>
-      </div>
+      </header>
 
-      <div class="card glass stat-card">
-        <h3>AI Confidence</h3>
-        <h1 id="confidence">93%</h1>
-      </div>
+      <!-- STATS -->
+      <section class="dashboard-grid">
 
-    </section>
+        <div class="card glass stat-card">
+          <h3>Active Incidents</h3>
+          <h1 id="incidentCount">12</h1>
+        </div>
 
-    <section class="map-section glass">
-      <div id="map"></div>
-    </section>
+        <div class="card glass stat-card">
+          <h3>Ambulances Active</h3>
+          <h1>7</h1>
+        </div>
 
-    <section class="panels-grid">
+        <div class="card glass stat-card">
+          <h3>Risk Level</h3>
+          <h1 class="danger-text">HIGH</h1>
+        </div>
 
-    </html>
+        <div class="card glass stat-card">
+          <h3>AI Confidence</h3>
+          <h1 id="confidence">93%</h1>
+        </div>
+
+      </section>
+
+      <!-- MAP -->
+      <section class="map-section glass">
+        <div id="map"></div>
+      </section>
+
+      <!-- AI ANALYSIS -->
+      <section class="glass ai-panel">
+
+        <h2>🤖 AI Emergency Analysis</h2>
+
+        <input
+          type="text"
+          id="emergencyInput"
+          placeholder="Describe emergency..."
+        />
+
+        <button onclick="runAIAnalysis()">
+          Analyze Emergency
+        </button>
+
+        <div id="aiResult"></div>
+
+      </section>
+
+      <!-- PANELS -->
+      <section class="panels-grid">
+
+        <!-- TIMELINE -->
+        <div class="glass panel">
+          <h2>Emergency Timeline</h2>
+
+          <ul id="timeline">
+            <li>🚑 Ambulance dispatched</li>
+            <li>🔥 Fire alert detected</li>
+            <li>📍 GPS tracking enabled</li>
+          </ul>
+        </div>
+
+        <!-- LIVE INCIDENTS -->
+        <div class="glass panel">
+          <h2>Live Incidents</h2>
+
+          <div id="incidentFeed">
+
+            <div class="incident-card">
+              <h3>Fire Emergency</h3>
+              <p>Location: Chennai Central</p>
+            </div>
+
+            <div class="incident-card">
+              <h3>Road Accident</h3>
+              <p>Location: OMR Road</p>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+
+</body>
+
+</html>
