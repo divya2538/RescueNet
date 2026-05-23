@@ -2,174 +2,120 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>RescueNet AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Emergency Command Center</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-    <nav>
+<div class="dashboard">
 
-        <h2 class="logo">🚑 RescueNet AI</h2>
+    <!-- SIDEBAR -->
+    <aside class="sidebar glass">
 
-        <div class="nav-links">
+        <h1 class="logo">🚑 RESCUENET</h1>
 
+        <nav>
             <a href="index.html">Home</a>
             <a href="report.html">Report</a>
             <a href="rules.html">Rules</a>
-            <a href="ai.html">AI</a>
+            <a href="ai.html">AI Analysis</a>
+            <a href="heatmap.html">Heatmap</a>
+            <a href="dashboard.html">Responder Panel</a>
+        </nav>
 
-        </div>
+    </aside>
 
-    </nav>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
 
-    <div class="container">
+        <!-- TOPBAR -->
+        <header class="topbar glass">
 
-        <h1 class="main-title">
-            RescueNet AI
-        </h1>
-
-        <p class="tagline">
-            Intelligent Emergency Assistance Platform
-        </p>
-
-        <div class="dashboard-grid">
-
-            <div class="glass-card">
-
-                <h2>📞 Emergency Contact</h2>
-
-                <input type="text"
-                       id="contactNumber"
-                       placeholder="Enter WhatsApp Number">
-
-                <select id="severityLevel">
-
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>Critical</option>
-
-                </select>
-
-                <select id="country">
-
-                    <option>India</option>
-                    <option>USA</option>
-                    <option>UK</option>
-
-                </select>
-
+            <div>
+                <h2>AI Emergency Command Center</h2>
+                <p>Real-time emergency response coordination</p>
             </div>
 
-            <div class="glass-card">
+            <button id="sosBtn" class="sos-button">
+                EMERGENCY SOS
+            </button>
 
-                <h2>🚨 Emergency Actions</h2>
+        </header>
 
-                <button class="sos-btn"
-                        onclick="findHelp()">
-                    🚑 Activate SOS
-                </button>
+        <!-- STATS -->
+        <section class="dashboard-grid">
 
-                <button id="cancelBtn"
-                        class="normal-btn"
-                        onclick="cancelSOS()"
-                        style="display:none;">
-                    ❌ Cancel SOS
-                </button>
-
-                <button class="normal-btn"
-                        onclick="window.location.href='ai.html'">
-                    🤖 AI Emergency Assistant
-                </button>
-
+            <div class="card glass stat-card">
+                <h3>Active Incidents</h3>
+                <h1 id="incidentCount">12</h1>
             </div>
 
-        </div>
-
-        <div class="status-box">
-
-            <h3>📊 SOS Status</h3>
-
-            <p id="result">
-                System Ready
-            </p>
-
-        </div>
-
-        <div class="risk-container">
-
-            <div id="riskBar"></div>
-
-        </div>
-
-        <div class="timeline-box">
-
-            <h3>🕒 Emergency Timeline</h3>
-
-            <ul id="timeline"></ul>
-
-        </div>
-
-        <div class="services-grid">
-
-            <div class="glass-card">
-
-                <h3>🏥 Hospitals</h3>
-
-                <p id="hospitalStatus">
-                    Waiting...
-                </p>
-
+            <div class="card glass stat-card">
+                <h3>Ambulances Active</h3>
+                <h1>7</h1>
             </div>
 
-            <div class="glass-card">
-
-                <h3>🚓 Police</h3>
-
-                <p id="policeStatus">
-                    Waiting...
-                </p>
-
+            <div class="card glass stat-card">
+                <h3>Risk Level</h3>
+                <h1 class="danger-text">HIGH</h1>
             </div>
 
-            <div class="glass-card">
-
-                <h3>🔧 Mechanics</h3>
-
-                <p id="mechanicStatus">
-                    Waiting...
-                </p>
-
+            <div class="card glass stat-card">
+                <h3>AI Confidence</h3>
+                <h1 id="confidence">93%</h1>
             </div>
 
-            <div class="glass-card">
+        </section>
 
-                <h3>⛽ Fuel Stations</h3>
+        <!-- MAP -->
+        <section class="map-section glass">
+            <div id="map"></div>
+        </section>
 
-                <p id="fuelStatus">
-                    Waiting...
-                </p>
+        <!-- AI ANALYSIS -->
+        <section class="glass ai-panel">
 
+            <h2>🤖 AI Emergency Analysis</h2>
+
+            <input
+                type="text"
+                id="emergencyInput"
+                placeholder="Describe emergency..."
+            >
+
+            <button onclick="runAIAnalysis()">
+                Analyze Emergency
+            </button>
+
+            <div id="aiResult"></div>
+
+        </section>
+
+        <!-- PANELS -->
+        <section class="panels-grid">
+
+            <div class="glass panel">
+                <h2>Emergency Timeline</h2>
+                <ul id="timeline"></ul>
             </div>
 
-        </div>
+            <div class="glass panel">
+                <h2>Live Incidents</h2>
+                <div id="incidentFeed"></div>
+            </div>
 
-        <h3 class="footer-text">
-            “Because every second matters.”
-        </h3>
+        </section>
 
-    </div>
+    </main>
 
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
+<script type="module" src="assets/js/app.js"></script>
 
 </body>
-
 </html>
