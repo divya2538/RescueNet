@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>
+        RescueNet • Hazard Reporting
+    </title>
+
+    <!-- FONTS -->
+
+    <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+    <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+    <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link
+    rel="stylesheet"
+    href="./assets/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+
+    <div class="background-grid"></div>
+
+    <div class="container">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <h1 class="logo">
+                RescueNet
+            </h1>
+
+            <p class="sidebar-subtitle">
+                AI-Powered Emergency Infrastructure
+            </p>
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Dashboard
+                </a>
+
+                <a
+                href="report.html"
+                class="active-link">
+                    Hazard Reports
+                </a>
+
+                <a href="rules.html">
+                    Traffic Rules
+                </a>
+
+                <a href="dashboard.html">
+                    Command Center
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- MAIN -->
+
+        <main class="main-content">
+
+            <!-- TOP -->
+
+            <div class="topbar glass-card">
+
+                <div>
+
+                    <h2>
+                        Hazard Reporting Center
+                    </h2>
+
+                    <p>
+                        Upload live emergency hazards and
+                        sync with responder network
+                    </p>
+
+                </div>
+
+                <div class="live-indicator">
+
+                    <div class="pulse"></div>
+
+                    LIVE REPORT SYSTEM
+
+                </div>
+
+            </div>
+
+            <!-- REPORT FORM -->
+
+            <section
+            class="glass-card"
+            style="margin-top:25px;">
+
+                <div class="section-header">
+
+                    <h2>
+                        Submit Hazard Report
+                    </h2>
+
+                </div>
+
+                <div
+                class="sos-controls"
+                style="margin-top:30px;">
+
+                    <input
+                    type="text"
+                    id="reportTitle"
+                    placeholder="Hazard title">
+
+                    <select id="reportSeverity">
+
+                        <option>
+                            LOW
+                        </option>
+
+                        <option>
+                            MODERATE
+                        </option>
+
+                        <option>
+                            HIGH
+                        </option>
+
+                        <option>
+                            CRITICAL
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <textarea
+                id="reportDescription"
+                placeholder="Describe the emergency or road hazard..."
+                style="
+                width:100%;
+                margin-top:20px;
+                min-height:180px;
+                background:rgba(255,255,255,0.04);
+                border:1px solid rgba(255,255,255,0.08);
+                border-radius:18px;
+                padding:18px;
+                color:white;
+                resize:none;
+                outline:none;
+                ">
+                </textarea>
+
+                <!-- IMAGE AI -->
+
+                <div
+                style="
+                margin-top:30px;
+                ">
+
+                    <h3>
+                        AI Accident Image Analysis
+                    </h3>
+
+                    <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    style="
+                    margin-top:18px;
+                    ">
+
+                    <img
+                    id="imagePreview"
+                    style="
+                    width:100%;
+                    max-height:350px;
+                    object-fit:cover;
+                    margin-top:20px;
+                    border-radius:20px;
+                    display:none;
+                    ">
+
+                    <div
+                    id="imageAnalysisResult"
+                    style="
+                    margin-top:25px;
+                    ">
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button
+                onclick="submitHazardReport()"
+                style="
+                margin-top:30px;
+                background:linear-gradient(
+                135deg,
+                #00e5ff,
+                #0099ff
+                );
+                color:white;
+                width:100%;
+                padding:18px;
+                font-size:16px;
+                ">
+                    Upload Emergency Report
+                </button>
+
+            </section>
+
+            <!-- LIVE REPORTS -->
+
+            <section
+            class="glass-card"
+            style="margin-top:25px;">
+
+                <div class="section-header">
+
+                    <h2>
+                        Live Emergency Feed
+                    </h2>
+
+                </div>
+
+                <div id="liveReports">
+
+                    <div class="feed-item">
+
+                        <div>
+
+                            <h4>
+                                Vehicle Collision
+                            </h4>
+
+                            <p>
+                                Multi-vehicle crash reported
+                            </p>
+
+                        </div>
+
+                        <div class="feed-badge">
+                            CRITICAL
+                        </div>
+
+                    </div>
+
+                    <div class="feed-item">
+
+                        <div>
+
+                            <h4>
+                                Flooded Road
+                            </h4>
+
+                            <p>
+                                Waterlogging affecting traffic
+                            </p>
+
+                        </div>
+
+                        <div class="feed-badge">
+                            HIGH
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- SCRIPTS -->
+
+    <script
+    type="module"
+    src="./assets/js/firebase.js">
+    </script>
+
+    <script
+    type="module"
+    src="./assets/js/script.js">
+    </script>
+
+    <script
+    type="module"
+    src="./assets/js/image-analysis.js">
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+RescueNet AI Emergency Intelligence
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet"
+>
+
+<link
+rel="stylesheet"
+href="assets/css/style.css"
+/>
+
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div>
+
+<h1 class="logo">
+🤖 RescueNet AI
+</h1>
+
+<p class="sidebar-subtitle">
+Emergency Intelligence System
+</p>
+
+</div>
+
+<nav class="nav-links">
+
+<a href="index.html">
+Emergency Center
+</a>
+
+<a href="dashboard.html">
+Responder Dashboard
+</a>
+
+<a href="ai.html"
+class="active-link">
+AI Intelligence
+</a>
+
+<a href="report.html">
+Hazard Reports
+</a>
+
+<a href="rules.html">
+Traffic Rules
+</a>
+
+</nav>
+
+<div class="system-panel glass-card">
+
+<h3>
+AI SYSTEM STATUS
+</h3>
+
+<div class="status-item">
+<span class="status-dot green"></span>
+Neural Analysis Online
+</div>
+
+<div class="status-item">
+<span class="status-dot cyan"></span>
+Voice Intelligence Active
+</div>
+
+<div class="status-item">
+<span class="status-dot red"></span>
+Threat Monitoring Enabled
+</div>
+
+</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main-content">
+
+<header class="topbar glass-card">
+
+<div>
+
+<h2>
+AI Emergency Analysis
+</h2>
+
+<p>
+Advanced emergency severity prediction engine
+</p>
+
+</div>
+
+<div class="clock"
+id="aiClock"></div>
+
+</header>
+
+<!-- AI INPUT -->
+
+<section class="glass-card ai-input-card">
+
+<h2>
+Emergency Description
+</h2>
+
+<textarea
+id="emergencyInput"
+placeholder="Describe the emergency situation..."
+></textarea>
+
+<div class="button-row">
+
+<button id="analyzeButton">
+Analyze Emergency
+</button>
+
+<button id="voiceAnalyze">
+🎤 Voice Input
+</button>
+
+</div>
+
+</section>
+
+<!-- AI OUTPUT -->
+
+<section class="analysis-grid">
+
+<div class="glass-card result-card">
+
+<h2>
+Severity Classification
+</h2>
+
+<div id="severityLevel"
+class="severity-display">
+WAITING
+</div>
+
+<div class="risk-meter">
+
+<div id="riskBar"></div>
+
+</div>
+
+<p id="riskText">
+AI waiting for emergency analysis...
+</p>
+
+</div>
+
+<div class="glass-card result-card">
+
+<h2>
+AI Confidence
+</h2>
+
+<div class="confidence-circle">
+
+<span id="confidenceValue">
+0%
+</span>
+
+</div>
+
+<p id="confidenceText">
+No prediction generated
+</p>
+
+</div>
+
+</section>
+
+<!-- RECOMMENDATIONS -->
+
+<section class="glass-card recommendation-card">
+
+<h2>
+AI Recommendations
+</h2>
+
+<div id="recommendations">
+
+<div class="recommendation-item">
+Awaiting emergency analysis...
+</div>
+
+</div>
+
+</section>
+
+<!-- INCIDENT TIMELINE -->
+
+<section class="glass-card timeline-card">
+
+<h2>
+Emergency Timeline
+</h2>
+
+<div id="timelineContainer">
+
+<div class="timeline-item">
+System initialized...
+</div>
+
+</div>
+
+</section>
+
+<!-- IMAGE ANALYSIS -->
+
+<section class="glass-card image-card">
+
+<h2>
+AI Accident Image Analysis
+</h2>
+
+<input
+type="file"
+id="imageUpload"
+accept="image/*"
+>
+
+<img
+id="previewImage"
+style="display:none;"
+>
+
+<button id="analyzeImageButton">
+Analyze Accident Image
+</button>
+
+<div id="imageAnalysisResult">
+
+AI image analysis inactive
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script type="module">
+
+import
+{
+analyzeEmergency
+}
+from './assets/js/ai-engine.js';
+
+const analyzeButton =
+document.getElementById(
+'analyzeButton'
+);
+
+const emergencyInput =
+document.getElementById(
+'emergencyInput'
+);
+
+const severityLevel =
+document.getElementById(
+'severityLevel'
+);
+
+const confidenceValue =
+document.getElementById(
+'confidenceValue'
+);
+
+const confidenceText =
+document.getElementById(
+'confidenceText'
+);
+
+const recommendations =
+document.getElementById(
+'recommendations'
+);
+
+const riskBar =
+document.getElementById(
+'riskBar'
+);
+
+const riskText =
+document.getElementById(
+'riskText'
+);
+
+const timelineContainer =
+document.getElementById(
+'timelineContainer'
+);
+
+/* CLOCK */
+
+function updateClock()
+{
+    document
+    .getElementById('aiClock')
+    .innerHTML =
+    new Date()
+    .toLocaleTimeString();
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* ANALYZE */
+
+analyzeButton
+.addEventListener('click',()=>
+{
+    const text =
+    emergencyInput.value;
+
+    const result =
+    analyzeEmergency(text);
+
+    renderAIResult(result);
+});
+
+/* RENDER */
+
+function renderAIResult(result)
+{
+    severityLevel.innerHTML =
+    result.severity;
+
+    severityLevel.className =
+    `
+    severity-display
+    ${result.className}
+    `;
+
+    confidenceValue.innerHTML =
+    result.confidence + '%';
+
+    confidenceText.innerHTML =
+    `
+    AI confidence level:
+    ${result.confidence}%
+    `;
+
+    riskBar.style.width =
+    result.confidence + '%';
+
+    riskBar.style.background =
+    result.color;
+
+    riskText.innerHTML =
+    `
+    Estimated Risk:
+    ${result.severity}
+    `;
+
+    recommendations.innerHTML = '';
+
+    result.recommendations
+    .forEach((item)=>
+    {
+        const div =
+        document.createElement('div');
+
+        div.className =
+        'recommendation-item';
+
+        div.innerHTML =
+        `
+        ✅ ${item}
+        `;
+
+        recommendations.appendChild(div);
+    });
+
+    addTimelineEvent(
+    result.severity
+    );
+}
+
+/* TIMELINE */
+
+function addTimelineEvent(level)
+{
+    const item =
+    document.createElement('div');
+
+    item.className =
+    'timeline-item';
+
+    item.innerHTML =
+    `
+    ${new Date()
+    .toLocaleTimeString()}
+    →
+    ${level} emergency classified
+    `;
+
+    timelineContainer.prepend(item);
+
+    if(timelineContainer.children.length > 8)
+    {
+        timelineContainer.removeChild(
+        timelineContainer.lastElementChild
+        );
+    }
+}
+
+/* IMAGE PREVIEW */
+
+const imageUpload =
+document.getElementById(
+'imageUpload'
+);
+
+const previewImage =
+document.getElementById(
+'previewImage'
+);
+
+imageUpload
+.addEventListener('change',
+(event)=>
+{
+    const file =
+    event.target.files[0];
+
+    if(file)
+    {
+        previewImage.src =
+        URL.createObjectURL(file);
+
+        previewImage.style.display =
+        'block';
+    }
+});
+
+/* IMAGE ANALYSIS */
+
+document
+.getElementById(
+'analyzeImageButton'
+)
+.addEventListener('click',()=>
+{
+    const resultBox =
+    document.getElementById(
+    'imageAnalysisResult'
+    );
+
+    const analyses =
+    [
+        {
+            severity:'CRITICAL',
+            confidence:'94%',
+            details:
+            'Vehicle crash and fire detected.'
+        },
+
+        {
+            severity:'MODERATE',
+            confidence:'72%',
+            details:
+            'Possible vehicle damage.'
+        },
+
+        {
+            severity:'LOW',
+            confidence:'58%',
+            details:
+            'Minor roadside incident.'
+        }
+    ];
+
+    const result =
+    analyses[
+    Math.floor(
+    Math.random()*analyses.length
+    )];
+
+    resultBox.innerHTML =
+    `
+    <h3>
+    ${result.severity}
+    </h3>
+
+    <p>
+    Confidence:
+    ${result.confidence}
+    </p>
+
+    <p>
+    ${result.details}
+    </p>
+    `;
+});
+
+/* VOICE INPUT */
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(SpeechRecognition)
+{
+    const recognition =
+    new SpeechRecognition();
+
+    recognition.lang =
+    'en-US';
+
+    document
+    .getElementById(
+    'voiceAnalyze'
+    )
+    .addEventListener('click',()=>
+    {
+        recognition.start();
+    });
+
+    recognition.onresult =
+    (event)=>
+    {
+        emergencyInput.value =
+        event.results[0][0]
+        .transcript;
+    };
+}
+
+</script>
+
+<style>
+
+textarea
+{
+    width:100%;
+
+    min-height:160px;
+
+    background:
+    rgba(255,255,255,0.04);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    color:white;
+
+    margin-top:20px;
+
+    resize:none;
+}
+
+.button-row
+{
+    display:flex;
+
+    gap:15px;
+
+    margin-top:20px;
+}
+
+button
+{
+    border:none;
+
+    padding:14px 22px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-weight:700;
+}
+
+#analyzeButton
+{
+    background:#ff3b3b;
+
+    color:white;
+}
+
+#voiceAnalyze
+{
+    background:#00e5ff;
+
+    color:black;
+}
+
+.analysis-grid
+{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+
+    margin-top:25px;
+}
+
+.severity-display
+{
+    font-size:32px;
+
+    font-weight:700;
+
+    margin-top:20px;
+}
+
+.low
+{
+    color:#00ff95;
+}
+
+.moderate
+{
+    color:#ffae00;
+}
+
+.critical
+{
+    color:#ff3b3b;
+}
+
+.risk-meter
+{
+    width:100%;
+
+    height:18px;
+
+    background:
+    rgba(255,255,255,0.06);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:25px;
+}
+
+#riskBar
+{
+    width:0;
+
+    height:100%;
+
+    transition:1s;
+}
+
+.confidence-circle
+{
+    width:150px;
+
+    height:150px;
+
+    border-radius:50%;
+
+    border:8px solid #00e5ff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:auto;
+
+    margin-top:20px;
+
+    font-size:28px;
+
+    font-weight:700;
+}
+
+.recommendation-item
+{
+    margin-top:14px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    background:
+    rgba(255,255,255,0.04);
+}
+
+.timeline-item
+{
+    margin-top:12px;
+
+    padding:14px;
+
+    border-left:
+    3px solid #00e5ff;
+
+    background:
+    rgba(255,255,255,0.04);
+}
+
+#previewImage
+{
+    width:100%;
+
+    max-height:400px;
+
+    object-fit:cover;
+
+    margin-top:20px;
+
+    border-radius:18px;
+}
+
+#analyzeImageButton
+{
+    margin-top:20px;
+
+    background:#00ff95;
+
+    color:black;
+}
+
+#imageAnalysisResult
+{
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,0.04);
+}
+
+</style>
+
+</body>
+</html>

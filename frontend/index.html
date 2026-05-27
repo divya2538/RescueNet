@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>RescueNet AI Emergency Command Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+
+<link rel="stylesheet" href="assets/css/style.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+html {
+    scroll-behavior: smooth;
+}
+
+/* FIX: stable scroll target */
+section {
+    scroll-margin-top: 90px;
+}
+
+/* FIX: floating SOS visibility */
+#floatingSOS {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+<div class="animated-overlay"></div>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div>
+<h1 class="logo">🚑 RescueNet</h1>
+<p class="sidebar-subtitle">AI Emergency Ecosystem</p>
+</div>
+
+<nav class="nav-links">
+
+<a href="index.html" class="active-link">Emergency Center</a>
+<a href="dashboard.html">Responder Dashboard</a>
+<a href="ai.html">AI Intelligence</a>
+<a href="report.html">Hazard Reports</a>
+<a href="rules.html">Traffic Rules</a>
+
+</nav>
+
+<div class="system-panel glass-card">
+<h3>SYSTEM STATUS</h3>
+
+<div class="status-item"><span class="status-dot green"></span>Emergency Network Active</div>
+<div class="status-item"><span class="status-dot cyan"></span>AI Monitoring Online</div>
+<div class="status-item"><span class="status-dot red"></span>Critical Alerts Enabled</div>
+<div class="status-item"><span class="status-dot yellow"></span>GPS Synchronization Stable</div>
+</div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<header class="topbar glass-card">
+<div>
+<h2>AI Emergency Command Center</h2>
+<p>Smart-city rescue coordination platform</p>
+</div>
+
+<div class="topbar-right">
+<div class="live-indicator">
+<span class="pulse"></span>
+LIVE
+</div>
+
+<div id="liveClock" class="clock"></div>
+</div>
+</header>
+
+<!-- STATS -->
+<section class="stats-grid">
+
+<div class="glass-card stat-card"><h3>ACTIVE INCIDENTS</h3><div class="metric">14</div></div>
+<div class="glass-card stat-card"><h3>AVERAGE RESPONSE</h3><div class="metric">4.2m</div></div>
+<div class="glass-card stat-card"><h3>AI CONFIDENCE</h3><div class="metric">98%</div></div>
+<div class="glass-card stat-card"><h3>CONNECTED RESPONDERS</h3><div class="metric">42</div></div>
+
+</section>
+
+<!-- MAP -->
+<section class="glass-card map-section" id="mapSection">
+
+<div class="section-header">
+<h2>Live Emergency Intelligence Map</h2>
+
+<div class="map-actions">
+<button id="locateButton">📍 Locate Me</button>
+<button id="refreshMap">🔄 Refresh</button>
+
+<!-- FIXED TARGET -->
+<button id="quickSOSButton">🚨 GO TO SOS</button>
+</div>
+
+</div>
+
+<div id="map"></div>
+
+</section>
+
+<!-- ANALYTICS -->
+<section class="analytics-grid">
+
+<div class="glass-card analytics-section">
+<h2>Emergency Analytics</h2>
+<canvas id="analyticsChart"></canvas>
+</div>
+
+<div class="glass-card emergency-panel">
+<h2>Live Emergency Feed</h2>
+<div id="liveFeed"></div>
+</div>
+
+</section>
+
+<!-- SOS -->
+<section class="glass-card sos-panel" id="sosSection">
+
+<h2>Emergency SOS System</h2>
+<p>Activate emergency rescue coordination instantly.</p>
+
+<div class="sos-controls">
+
+<input type="text" id="emergencyContact" placeholder="Emergency contact number"/>
+
+<select id="severitySelect">
+<option>LOW</option>
+<option>MODERATE</option>
+<option>CRITICAL</option>
+</select>
+
+<button id="sosButton">🚨 ACTIVATE SOS</button>
+
+</div>
+
+<div id="sosStatus">System ready for emergency activation</div>
+
+<div class="sos-progress">
+<div id="sosProgressFill"></div>
+</div>
+
+</section>
+
+</main>
+</div>
+
+<!-- FLOATING SOS -->
+<button id="floatingSOS">🚨 SOS</button>
+
+<!-- MODULES -->
+<script type="module" src="assets/js/firebase.js"></script>
+<script type="module" src="assets/js/map.js"></script>
+<script type="module" src="assets/js/heatmap.js"></script>
+<script type="module" src="assets/js/analytics.js"></script>
+<script type="module" src="assets/js/script.js"></script>
+
+<!-- FIXED SCROLL SCRIPT -->
+<script>
+const btn = document.getElementById("quickSOSButton");
+
+if (btn) {
+    btn.addEventListener("click", () => {
+        document.getElementById("sosSection")
+        .scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+}
+
+document.getElementById("floatingSOS")?.addEventListener("click", () => {
+    document.getElementById("sosSection")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+/* clock */
+setInterval(() => {
+    const el = document.getElementById("liveClock");
+    if (el) el.textContent = new Date().toLocaleTimeString();
+}, 1000);
+</script>
+
+</body>
+</html>

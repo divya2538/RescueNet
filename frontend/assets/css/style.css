@@ -1,0 +1,167 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #0b1c28, #060b10);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 280px;
+    padding: 25px;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(18px);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    color: #00e5ff;
+}
+
+.sidebar-subtitle {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* NAV */
+.nav-links {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-links a {
+    padding: 12px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.02);
+}
+
+.nav-links a:hover {
+    background: rgba(0,229,255,0.12);
+    transform: translateX(6px);
+}
+
+/* MAIN */
+.main-content {
+    flex: 1;
+    padding: 25px;
+}
+
+/* GLASS */
+.glass-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 22px;
+}
+
+/* LIVE */
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00ff95;
+}
+
+.pulse {
+    width: 10px;
+    height: 10px;
+    background: #00ff95;
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* STATS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 18px;
+}
+
+.metric {
+    font-size: 40px;
+    color: #00e5ff;
+}
+
+/* MAP */
+#map {
+    height: 380px;
+    border-radius: 18px;
+}
+
+/* SOS PANEL */
+.sos-panel {
+    border: 1px solid rgba(255,59,59,0.25);
+    background: linear-gradient(135deg, rgba(255,59,59,0.08), rgba(0,0,0,0.2));
+}
+
+.sos-controls {
+    display: grid;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.sos-controls input,
+.sos-controls select {
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: white;
+}
+
+/* 🚨 SOS BUTTON (IMPORTANT) */
+#sosButton {
+    padding: 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+    color: white;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+}
+
+#floatingSOS {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+    padding: 14px 18px;
+    border-radius: 50px;
+    border: none;
+    color: white;
+    z-index: 9999;
+}

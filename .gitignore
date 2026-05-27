@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# env file (VERY IMPORTANT)
+.env
+
+# logs
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
