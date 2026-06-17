@@ -1,7 +1,11 @@
 /* =========================
    RESCUENET AI HEATMAP SYSTEM
 ========================= */
+const map = window.map;
 
+if (!map) {
+    console.error("Map not initialized.");
+}
 /*
 FORMAT:
 [ LATITUDE, LONGITUDE, INTENSITY ]

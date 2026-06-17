@@ -2,7 +2,7 @@
    RESCUENET LIVE MAP SYSTEM
 ========================= */
 
-const map =
+window.map =
 L.map('map',
 {
     zoomControl:true

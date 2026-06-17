@@ -13,794 +13,394 @@ content="width=device-width, initial-scale=1.0">
 RescueNet • AI Emergency Command Center
 </title>
 
-<!-- GOOGLE FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link
-rel="preconnect"
-href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
 
-<link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+<link rel="stylesheet" href="./assets/css/style.css">
 
-<link
-href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
+<style>
+/* ✅ FIX 1: Chart wrapper */
+.chart-wrapper {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
 
-<!-- LEAFLET -->
+/* ✅ FIX 2: incidentFeed - no auto-scroll */
+#incidentFeed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 220px;
+    overflow-y: auto;
+    overflow-anchor: none;
+}
 
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+/* ✅ FIX 3: timelineContainer - no auto-scroll */
+#timelineContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 220px;
+    overflow-y: auto;
+    overflow-anchor: none;
+}
 
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+/* ✅ FIX 4: Emergency escalation as proper inline card, not broken floating popup */
+#emergencyPopup {
+    display: block;
+    background: linear-gradient(135deg, rgba(255,59,59,0.10), rgba(0,0,0,0.3));
+    border: 1px solid rgba(255,59,59,0.35);
+    border-radius: 20px;
+    padding: 24px;
+}
 
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+#emergencyPopup.hidden {
+    display: none;
+}
 
-<!-- CSS -->
+#emergencyPopup h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    color: #ff3b3b;
+    margin-bottom: 10px;
+}
 
-<link
-rel="stylesheet"
-href="./assets/css/style.css">
+#emergencyPopup p {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.popup-actions button {
+    padding: 11px 22px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.15s;
+}
+
+.popup-actions button:hover {
+    transform: translateY(-2px);
+}
+
+#cancelSOS {
+    background: rgba(255,255,255,0.07);
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+#confirmSOS {
+    background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+    color: white;
+}
+</style>
 
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
-
 <div class="background-grid"></div>
-
 <div class="animated-overlay"></div>
 
 <div class="container">
 
-<!-- ===================================
-SIDEBAR
-=================================== -->
+    <aside class="sidebar">
+
+        <div>
+            <h1 class="logo">🚑 RescueNet</h1>
+            <p class="sidebar-subtitle">AI Emergency Coordination Network</p>
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Emergency Center</a>
+            <a href="dashboard.html" class="active-link">Command Center</a>
+            <a href="ai.html">AI Intelligence</a>
+            <a href="report.html">Hazard Reports</a>
+            <a href="rules.html">Traffic Rules</a>
+        </nav>
+
+        <div class="system-panel glass-card">
+            <h3>SYSTEM STATUS</h3>
+            <div class="status-item"><span class="status-dot green"></span>National Emergency Grid Active</div>
+            <div class="status-item"><span class="status-dot cyan"></span>AI Monitoring Stable</div>
+            <div class="status-item"><span class="status-dot red"></span>Critical Alerts Enabled</div>
+            <div class="status-item"><span class="status-dot yellow"></span>Responder Network Online</div>
+        </div>
+
+        <div class="glass-card sidebar-alert">
+            <h3>⚠ AI Alert</h3>
+            <p>Heavy congestion detected near OMR corridor. Emergency response delay probability increased.</p>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar glass-card">
+            <div>
+                <h2>Emergency Command Center</h2>
+                <p>Real-time responder coordination and AI emergency analytics</p>
+            </div>
+            <div class="topbar-right">
+                <div class="live-indicator">
+                    <span class="pulse"></span>
+                    LIVE
+                </div>
+                <div id="liveClock" class="clock"></div>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="glass-card stat-card">
+                <h3>ACTIVE EMERGENCIES</h3>
+                <div class="metric">18</div>
+                <p>Critical city-wide incidents</p>
+            </div>
+
+            <div class="glass-card stat-card">
+                <h3>AMBULANCES ONLINE</h3>
+                <div class="metric">42</div>
+                <p>Connected responder vehicles</p>
+            </div>
+
+            <div class="glass-card stat-card">
+                <h3>AI RISK SCORE</h3>
+                <div class="metric">82%</div>
+                <p>Heavy traffic congestion detected</p>
+            </div>
+
+            <div class="glass-card stat-card">
+                <h3>AVG RESPONSE TIME</h3>
+                <div class="metric">5m</div>
+                <p>AI optimized routing active</p>
+            </div>
+
+        </section>
+
+        <section class="ai-grid">
+
+            <div class="glass-card ai-card">
+                <h2>AI Risk Prediction</h2>
+                <div class="risk-meter">
+                    <div class="risk-fill"></div>
+                </div>
+                <h3 id="riskLevel">HIGH RISK</h3>
+                <p>AI continuously monitoring live traffic and emergency density.</p>
+            </div>
+
+            <div class="glass-card ai-card">
+                <h2>Responder Network</h2>
+                <div class="responder-list">
+                    <div class="responder-item">🚑 Ambulance Unit RN-A12</div>
+                    <div class="responder-item">🚓 Police Patrol RN-C7</div>
+                    <div class="responder-item">🚒 Fire Response RN-F2</div>
+                    <div class="responder-item">🛰 Surveillance Drone RN-D5</div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="glass-card map-section">
+            <div class="section-header">
+                <h2>Live Emergency Operations Map</h2>
+                <div class="map-actions">
+                    <button id="locateButton">📍 Locate Me</button>
+                    <button id="refreshMap">🔄 Refresh</button>
+                </div>
+            </div>
+            <div id="map"></div>
+        </section>
+
+        <section class="glass-card emergency-panel">
+            <div class="section-header">
+                <h2>Active Incident Feed</h2>
+            </div>
+
+            <!-- ✅ FIX: #incidentFeed now has fixed height + overflow-anchor:none via CSS above -->
+            <div id="incidentFeed">
+                <div class="incident">
+                    <div>
+                        <h4>Multi-Vehicle Collision</h4>
+                        <p>Ambulance RN-A12 dispatched to OMR corridor</p>
+                    </div>
+                    <div class="badge critical-badge">CRITICAL</div>
+                </div>
+                <div class="incident">
+                    <div>
+                        <h4>Fire Hazard Alert</h4>
+                        <p>Fire rescue team approaching industrial zone</p>
+                    </div>
+                    <div class="badge critical-badge">FIRE</div>
+                </div>
+                <div class="incident">
+                    <div>
+                        <h4>Road Flooding</h4>
+                        <p>AI rerouting activated across affected zones</p>
+                    </div>
+                    <div class="badge critical-badge">ALERT</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="analytics-grid">
+
+            <div class="glass-card analytics-section">
+                <div class="section-header">
+                    <h2>Emergency Analytics</h2>
+                </div>
+                <!-- ✅ FIX: canvas wrapped in .chart-wrapper with fixed height -->
+                <div class="chart-wrapper">
+                    <canvas id="analyticsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card analytics-section">
+                <div class="section-header">
+                    <h2>AI Response Timeline</h2>
+                </div>
+
+                <!-- ✅ FIX: #timelineContainer has fixed height + overflow-anchor:none via CSS above -->
+                <div id="timelineContainer">
+                    <div class="feed-item">
+                        <div>
+                            <h4>AI Crash Detection</h4>
+                            <p>Accident identified through sensor fusion engine</p>
+                        </div>
+                        <div class="feed-badge">LIVE</div>
+                    </div>
+                    <div class="feed-item">
+                        <div>
+                            <h4>Responder Dispatch Activated</h4>
+                            <p>Smart ambulance routing initialized</p>
+                        </div>
+                        <div class="feed-badge">ACTIVE</div>
+                    </div>
+                    <div class="feed-item">
+                        <div>
+                            <h4>Traffic Diversion Triggered</h4>
+                            <p>AI adaptive traffic system synchronized</p>
+                        </div>
+                        <div class="feed-badge">SYNCED</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="glass-card timeline-section">
+            <h2>Emergency Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>AI Monitoring Enabled</h4>
+                        <p>National emergency monitoring system initialized</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot red-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Critical Collision Detected</h4>
+                        <p>Emergency dispatch triggered automatically</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot cyan-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Ambulance Route Optimized</h4>
+                        <p>AI routing reduced response time by 32%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ✅ FIX: Emergency escalation as its own proper section inside main -->
+        <div id="emergencyPopup">
+            <h2>⚠ Emergency Escalation</h2>
+            <p>AI system detected abnormal traffic patterns and high collision probability near OMR corridor. Immediate responder dispatch recommended.</p>
+            <div class="popup-actions">
+                <button id="cancelSOS">Ignore</button>
+                <button id="confirmSOS">🚨 Dispatch Units</button>
+            </div>
+            <div id="escalationStatus" style="margin-top:14px; font-size:13px; color:#64748b;"></div>
+        </div>
+
+    </main>
 
-<aside class="sidebar">
-
-<div>
-
-<h1 class="logo">
-🚑 RescueNet
-</h1>
-
-<p class="sidebar-subtitle">
-AI Emergency Coordination Network
-</p>
-
-</div>
-
-<nav class="nav-links">
-
-<a href="index.html">
-Emergency Center
-</a>
-
-<a
-href="dashboard.html"
-class="active-link">
-Command Center
-</a>
-
-<a href="ai.html">
-AI Intelligence
-</a>
-
-<a href="report.html">
-Hazard Reports
-</a>
-
-<a href="rules.html">
-Traffic Rules
-</a>
-
-</nav>
-
-<div class="system-panel glass-card">
-
-<h3>
-SYSTEM STATUS
-</h3>
-
-<div class="status-item">
-<span class="status-dot green"></span>
-National Emergency Grid Active
-</div>
-
-<div class="status-item">
-<span class="status-dot cyan"></span>
-AI Monitoring Stable
-</div>
-
-<div class="status-item">
-<span class="status-dot red"></span>
-Critical Alerts Enabled
-</div>
-
-<div class="status-item">
-<span class="status-dot yellow"></span>
-Responder Network Online
-</div>
-
-</div>
-
-<div class="glass-card sidebar-alert">
-
-<h3>
-⚠ AI Alert
-</h3>
-
-<p>
-Heavy congestion detected near OMR corridor.
-Emergency response delay probability increased.
-</p>
-
-</div>
-
-</aside>
-
-<!-- ===================================
-MAIN CONTENT
-=================================== -->
-
-<main class="main-content">
-
-<!-- ===================================
-TOPBAR
-=================================== -->
-
-<header class="topbar glass-card">
-
-<div>
-
-<h2>
-Emergency Command Center
-</h2>
-
-<p>
-Real-time responder coordination and AI emergency analytics
-</p>
-
-</div>
-
-<div class="topbar-right">
-
-<div class="live-indicator">
-
-<span class="pulse"></span>
-
-LIVE
-
-</div>
-
-<div
-id="liveClock"
-class="clock">
-</div>
-
-</div>
-
-</header>
-
-<!-- ===================================
-STATS
-=================================== -->
-
-<section class="stats-grid">
-
-<div class="glass-card stat-card">
-
-<h3>
-ACTIVE EMERGENCIES
-</h3>
-
-<div class="metric">
-18
-</div>
-
-<p>
-Critical city-wide incidents
-</p>
-
-</div>
-
-<div class="glass-card stat-card">
-
-<h3>
-AMBULANCES ONLINE
-</h3>
-
-<div class="metric">
-42
-</div>
-
-<p>
-Connected responder vehicles
-</p>
-
-</div>
-
-<div class="glass-card stat-card">
-
-<h3>
-AI RISK SCORE
-</h3>
-
-<div class="metric">
-82%
-</div>
-
-<p>
-Heavy traffic congestion detected
-</p>
-
-</div>
-
-<div class="glass-card stat-card">
-
-<h3>
-AVG RESPONSE TIME
-</h3>
-
-<div class="metric">
-5m
-</div>
-
-<p>
-AI optimized routing active
-</p>
-
-</div>
-
-</section>
-
-<!-- ===================================
-AI RISK PANEL
-=================================== -->
-
-<section class="ai-grid">
-
-<div class="glass-card ai-card">
-
-<h2>
-AI Risk Prediction
-</h2>
-
-<div class="risk-meter">
-
-<div class="risk-fill"></div>
-
-</div>
-
-<h3 id="riskLevel">
-HIGH RISK
-</h3>
-
-<p>
-AI continuously monitoring live traffic and emergency density.
-</p>
-
-</div>
-
-<div class="glass-card ai-card">
-
-<h2>
-Responder Network
-</h2>
-
-<div class="responder-list">
-
-<div class="responder-item">
-🚑 Ambulance Unit RN-A12
-</div>
-
-<div class="responder-item">
-🚓 Police Patrol RN-C7
-</div>
-
-<div class="responder-item">
-🚒 Fire Response RN-F2
-</div>
-
-<div class="responder-item">
-🛰 Surveillance Drone RN-D5
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ===================================
-LIVE MAP
-=================================== -->
-
-<section class="glass-card map-section">
-
-<div class="section-header">
-
-<h2>
-Live Emergency Operations Map
-</h2>
-
-<div class="map-actions">
-
-<button id="locateButton">
-📍 Locate Me
-</button>
-
-<button id="refreshMap">
-🔄 Refresh
-</button>
-
-</div>
-
-</div>
-
-<div id="map"></div>
-
-</section>
-
-<!-- ===================================
-INCIDENT FEED
-=================================== -->
-
-<section class="glass-card emergency-panel">
-
-<div class="section-header">
-
-<h2>
-Active Incident Feed
-</h2>
-
-</div>
-
-<div id="incidentFeed">
-
-<div class="incident">
-
-<div>
-
-<h4>
-Multi-Vehicle Collision
-</h4>
-
-<p>
-Ambulance RN-A12 dispatched to OMR corridor
-</p>
-
-</div>
-
-<div class="badge critical-badge">
-CRITICAL
-</div>
-
-</div>
-
-<div class="incident">
-
-<div>
-
-<h4>
-Fire Hazard Alert
-</h4>
-
-<p>
-Fire rescue team approaching industrial zone
-</p>
-
-</div>
-
-<div class="badge critical-badge">
-FIRE
-</div>
-
-</div>
-
-<div class="incident">
-
-<div>
-
-<h4>
-Road Flooding
-</h4>
-
-<p>
-AI rerouting activated across affected zones
-</p>
-
-</div>
-
-<div class="badge critical-badge">
-ALERT
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ===================================
-ANALYTICS
-=================================== -->
-
-<section class="analytics-grid">
-
-<div class="glass-card analytics-section">
-
-<div class="section-header">
-
-<h2>
-Emergency Analytics
-</h2>
-
-</div>
-
-<canvas id="analyticsChart"></canvas>
-
-</div>
-
-<div class="glass-card analytics-section">
-
-<div class="section-header">
-
-<h2>
-AI Response Timeline
-</h2>
-
-</div>
-
-<div id="timelineContainer">
-
-<div class="feed-item">
-
-<div>
-
-<h4>
-AI Crash Detection
-</h4>
-
-<p>
-Accident identified through sensor fusion engine
-</p>
-
-</div>
-
-<div class="feed-badge">
-LIVE
-</div>
-
-</div>
-
-<div class="feed-item">
-
-<div>
-
-<h4>
-Responder Dispatch Activated
-</h4>
-
-<p>
-Smart ambulance routing initialized
-</p>
-
-</div>
-
-<div class="feed-badge">
-ACTIVE
 </div>
-
-</div>
-
-<div class="feed-item">
-
-<div>
-
-<h4>
-Traffic Diversion Triggered
-</h4>
-
-<p>
-AI adaptive traffic system synchronized
-</p>
-
-</div>
-
-<div class="feed-badge">
-SYNCED
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ===================================
-COMMAND TIMELINE
-=================================== -->
-
-<section class="glass-card timeline-section">
-
-<h2>
-Emergency Timeline
-</h2>
-
-<div class="timeline">
-
-<div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
-<div class="timeline-content">
-
-<h4>
-AI Monitoring Enabled
-</h4>
-
-<p>
-National emergency monitoring system initialized
-</p>
-
-</div>
-
-</div>
-
-<div class="timeline-item">
-
-<div class="timeline-dot red-dot"></div>
-
-<div class="timeline-content">
-
-<h4>
-Critical Collision Detected
-</h4>
-
-<p>
-Emergency dispatch triggered automatically
-</p>
-
-</div>
-
-</div>
-
-<div class="timeline-item">
-
-<div class="timeline-dot cyan-dot"></div>
-
-<div class="timeline-content">
-
-<h4>
-Ambulance Route Optimized
-</h4>
-
-<p>
-AI routing reduced response time by 32%
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-</div>
-
-<!-- ===================================
-EMERGENCY POPUP
-=================================== -->
-
-<div
-id="emergencyPopup"
-class="emergency-popup hidden">
-
-<h2>
-⚠ Emergency Escalation
-</h2>
-
-<p>
-AI system detected abnormal traffic patterns and collision probability.
-</p>
-
-<div class="popup-actions">
-
-<button id="cancelSOS">
-Ignore
-</button>
-
-<button id="confirmSOS">
-Dispatch Units
-</button>
-
-</div>
-
-</div>
-
-<!-- ===================================
-LIBRARIES
-=================================== -->
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- ===================================
-MODULE SCRIPTS
-=================================== -->
-
-<script
-type="module"
-src="./assets/js/firebase.js">
-</script>
-
-<script
-type="module"
-src="./assets/js/map.js">
-</script>
-
-<script
-type="module"
-src="./assets/js/heatmap.js">
-</script>
-
-<script
-type="module"
-src="./assets/js/ambulance.js">
-</script>
-
-<script
-type="module"
-src="./assets/js/analytics.js">
-</script>
-
-<script
-type="module"
-src="./assets/js/script.js">
-</script>
-
-<!-- ===================================
-INLINE SCRIPT
-=================================== -->
+<script type="module" src="./assets/js/firebase.js"></script>
+<script type="module" src="./assets/js/map.js"></script>
+<script type="module" src="./assets/js/heatmap.js"></script>
+<script type="module" src="./assets/js/ambulance.js"></script>
+<script type="module" src="./assets/js/analytics.js"></script>
+<script type="module" src="./assets/js/script.js"></script>
 
 <script>
 
 /* CLOCK */
-
-const liveClock =
-document.getElementById(
-'liveClock'
-);
-
-function updateClock()
-{
-    liveClock.innerHTML =
-    new Date()
-    .toLocaleTimeString();
-}
-
-setInterval(updateClock,1000);
-
+const liveClock = document.getElementById('liveClock');
+function updateClock() { liveClock.innerHTML = new Date().toLocaleTimeString(); }
+setInterval(updateClock, 1000);
 updateClock();
 
-/* INCIDENT FEED */
+/* INCIDENT FEED - overflow-anchor:none in CSS handles scroll, just cap items here */
+const incidents = ['Medical Emergency','Vehicle Collision','Industrial Fire','Traffic Congestion','Flood Alert','Bridge Accident'];
+const locations  = ['OMR Highway','Anna Salai','Tambaram','Velachery','ECR Junction','T Nagar'];
 
-const incidents =
-[
-    'Medical Emergency',
-    'Vehicle Collision',
-    'Industrial Fire',
-    'Traffic Congestion',
-    'Flood Alert',
-    'Bridge Accident'
-];
-
-const locations =
-[
-    'OMR Highway',
-    'Anna Salai',
-    'Tambaram',
-    'Velachery',
-    'ECR Junction',
-    'T Nagar'
-];
-
-setInterval(() =>
-{
-    const feed =
-    document.getElementById(
-    'incidentFeed'
-    );
-
-    const item =
-    document.createElement(
-    'div'
-    );
-
-    item.className =
-    'incident';
-
-    item.innerHTML =
-    `
-    <div>
-
-        <h4>
-        ${
-            incidents[
-            Math.floor(
-            Math.random() *
-            incidents.length
-            )]
-        }
-        </h4>
-
-        <p>
-        ${
-            locations[
-            Math.floor(
-            Math.random() *
-            locations.length
-            )]
-        }
-        </p>
-
-    </div>
-
-    <div class="badge critical-badge">
-        LIVE
-    </div>
-    `;
-
+setInterval(() => {
+    const feed = document.getElementById('incidentFeed');
+    const item = document.createElement('div');
+    item.className = 'incident';
+    item.innerHTML = `
+        <div>
+            <h4>${incidents[Math.floor(Math.random()*incidents.length)]}</h4>
+            <p>${locations[Math.floor(Math.random()*locations.length)]}</p>
+        </div>
+        <div class="badge critical-badge">LIVE</div>`;
     feed.prepend(item);
-
-    if(feed.children.length > 5)
-    {
-        feed.removeChild(
-        feed.lastElementChild
-        );
-    }
-
-},6000);
+    if (feed.children.length > 5) feed.removeChild(feed.lastElementChild);
+}, 6000);
 
 /* AI RISK */
+const riskLevels = ['LOW RISK','MODERATE RISK','HIGH RISK','CRITICAL RISK'];
+setInterval(() => {
+    document.getElementById('riskLevel').innerHTML = riskLevels[Math.floor(Math.random()*riskLevels.length)];
+}, 7000);
 
-const riskLevels =
-[
-    'LOW RISK',
-    'MODERATE RISK',
-    'HIGH RISK',
-    'CRITICAL RISK'
-];
+/* ✅ ESCALATION BUTTONS */
+document.getElementById('confirmSOS').addEventListener('click', () => {
+    const status = document.getElementById('escalationStatus');
+    status.style.color = '#00ff95';
+    status.textContent = '✅ Units dispatched — Ambulance RN-A12, Police RN-C7 en route.';
+    document.getElementById('confirmSOS').disabled = true;
+    document.getElementById('confirmSOS').style.opacity = '0.5';
+});
 
-setInterval(() =>
-{
-    document.getElementById(
-    'riskLevel'
-    ).innerHTML =
-    riskLevels[
-    Math.floor(
-    Math.random() *
-    riskLevels.length
-    )];
-
-},7000);
+document.getElementById('cancelSOS').addEventListener('click', () => {
+    const status = document.getElementById('escalationStatus');
+    status.style.color = '#64748b';
+    status.textContent = 'Alert ignored. AI will continue monitoring.';
+});
 
 </script>
 

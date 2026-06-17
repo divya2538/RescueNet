@@ -122,6 +122,23 @@ body {
     border-radius: 18px;
 }
 
+/* ✅ FIX 1: Chart wrapper with fixed height so Chart.js doesn't grow infinitely */
+.chart-wrapper {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
+/* ✅ FIX 2: Fixed height + overflow-anchor:none stops page auto-scrolling on prepend */
+#liveFeed {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 200px;
+    overflow-y: auto;
+    overflow-anchor: none;
+}
+
 /* SOS PANEL */
 .sos-panel {
     border: 1px solid rgba(255,59,59,0.25);
